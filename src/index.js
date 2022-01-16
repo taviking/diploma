@@ -3,9 +3,11 @@
 import modal from "./modules/modal.js";
 import anchor from "./modules/anchor.js";
 import accordeon from "./modules/accordeon.js";
-import topSlider from "./modules/slider";
+import topSlider from "./modules/slider.js";
+import bottomSlider from "./modules/carousel.js";
 
 accordeon();
 anchor(".top-menu>ul");
 modal();
 topSlider();
+bottomSlider();
