@@ -1,14 +1,11 @@
 const accordeon = () => {
   const accordeon = document.querySelector(".accordeon");
-  const elements = document.querySelectorAll(".accordeon>.element");
-  const elemContent = document.querySelectorAll(
-    ".accordeon>.element>.element-content"
-  );
+  const elements = accordeon.querySelectorAll(".element");
+  const elemContent = accordeon.querySelectorAll(".element>.element-content");
   // открытие акардеона при нажатии
   accordeon.addEventListener("click", (event) => {
     let target = event.target;
     if (target.closest(".element")) {
-      console.log("click");
       const clickElement = target.closest(".element");
       elements.forEach((elemnt, index) => {
         if (elemnt === clickElement) {

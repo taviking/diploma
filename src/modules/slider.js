@@ -1,14 +1,16 @@
 const topSlider = () => {
   const slider = document.querySelector(".top-slider");
   const slides = slider.querySelectorAll(".item");
+  const table = slider.querySelectorAll(".table");
   const time = 3000;
+  table[0].classList.add("active");
 
   let index = 0;
 
   const moveSlide = (slideStep) => {
-    if (index >= slides.length) {
-      index = 0;
-    }
+    table[index].classList.remove("active");
+
+    table[index].classList.add("active");
 
     slides.forEach((item, i) => {
       if (index === i) {
@@ -18,6 +20,10 @@ const topSlider = () => {
       }
     });
     index += slideStep;
+
+    if (index >= slides.length && index >= table.length) {
+      index = 0;
+    }
   };
 
   const timerId = () => {
