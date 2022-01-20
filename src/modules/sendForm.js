@@ -5,6 +5,11 @@ const sendForm = () => {
   const loadMessage = "Загрузка...";
   const statusMessage = document.createElement("div");
   const form = document.querySelector(".rf> form");
+  const modalOverlay = document.querySelector(".modal-overlay");
+  const modalCallback = document.querySelector(".modal-callback");
+
+  let formInputs = form.querySelectorAll("input");
+
   // валидация формы
   document.body.addEventListener("input", (e) => {
     let target = e.target;
@@ -15,10 +20,10 @@ const sendForm = () => {
     }
   });
 
-  //отправка формы
+  //отправка формы server.php
 
   const postData = (body) => {
-    return fetch("server.php", {
+    return fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,13 +47,20 @@ const sendForm = () => {
 
     postData(body)
       .then((response) => {
-        if (response.status !== 200) {
+        if (response.status !== 201) {
           throw new Error("something wrong");
         }
         statusMessage.style.cssText = `
                         color: green;
                     `;
         statusMessage.textContent = successMessage;
+        setTimeout(() => {
+          formInputs[0].value = "";
+          formInputs[1].value = "";
+          statusMessage.textContent = "";
+          modalCallback.style.display = "none";
+          modalOverlay.style.display = "none";
+        }, 5000);
       })
       .catch((error) => {
         statusMessage.style.cssText = `
@@ -62,7 +74,19 @@ const sendForm = () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     form.appendChild(statusMessage);
-    formPostData(event, form);
+
+    if (
+      formInputs[0].value.length < 2 ||
+      formInputs[1].value.length < 8 ||
+      formInputs[1].value.length > 12
+    ) {
+      statusMessage.style.cssText = `
+                        color: red;
+                    `;
+      statusMessage.textContent = "Введите корректные данные!!!";
+    } else {
+      formPostData(event, form);
+    }
   });
 };
 export default sendForm;
